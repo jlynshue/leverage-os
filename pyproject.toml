@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "leverage-os"
+version = "0.1.0"
+description = "CLI tool for Naval Ravikant-style self-audits: specific knowledge, leverage, productization, and time-for-money analysis"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "boto3>=1.34",
+    "questionary>=2.0",
+    "rich>=13.0",
+]
+
+[project.scripts]
+leverage-os = "leverage_os.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
