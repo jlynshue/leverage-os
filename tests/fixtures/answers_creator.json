@@ -1,0 +1,18 @@
+{
+  "persona": "creator",
+  "answers": {
+    "obsessions": "visual storytelling, developer education, open-source tooling for creative workflows",
+    "career_path": "Graphic designer → frontend dev at a design tool startup → YouTube educator (dev + design intersection) → freelance course creator",
+    "undervalued_skills": "explaining complex technical concepts visually in under 3 minutes, building community around niche tools, shipping fast with no perfectionism",
+    "income_sources": "YouTube AdSense: 5hrs/wk, 25% | Course sales (Gumroad): 3hrs/wk, 40% | Freelance video production: 15hrs/wk, 30% | Sponsorships: 2hrs/wk, 5%",
+    "monthly_income_target": "$12,000",
+    "skills_assets": "YouTube channel (45k subs, dev/design niche), 3 courses on Gumroad (2,000 total sales), Figma plugin (800 installs), email list (6,000)",
+    "expertise_transformation": "Help developers go from 'I can't design' to shipping visually polished projects using systematic design frameworks",
+    "platforms_audiences": "YouTube (45k subs), email list (6k), Twitter (3k), Gumroad storefront",
+    "hours_available": "12",
+    "work_activities": "Freelance video: per-project ($2,000-$4,000) | Courses: passive after creation | YouTube: AdSense + sponsorships | Client work: hourly ($150/hr)",
+    "total_hours_weekly": "30",
+    "current_monthly_income": "$9,500",
+    "income_split": "60% active / 40% passive"
+  }
+}
