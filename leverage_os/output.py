@@ -1,12 +1,58 @@
-"""Output module — saves results as markdown files."""
+"""Output module — saves results as markdown files + structured run records."""
 
+import hashlib
+import json
 import os
-from datetime import datetime
+import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 
 from rich.console import Console
 
 console = Console()
+
+
+def _generate_run_id() -> str:
+    ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H-%M-%SZ")
+    short = uuid.uuid4().hex[:4]
+    return f"{ts}-{short}"
+
+
+def _hash_answers(answers: dict) -> str:
+    raw = json.dumps(answers, sort_keys=True)
+    return f"sha256:{hashlib.sha256(raw.encode()).hexdigest()[:16]}"
+
+
+def save_run_record(
+    run_id: str,
+    audits_run: list[str],
+    provider_name: str,
+    model: str,
+    answers: dict,
+    output_path: str,
+    opportunities_extracted: int = 0,
+    output_dir: str = "./outputs",
+) -> str:
+    """Persist a structured JSON run record per SCAFFOLDING.md §5.1."""
+    runs_dir = Path(output_dir) / "runs"
+    runs_dir.mkdir(parents=True, exist_ok=True)
+
+    record = {
+        "run_id": run_id,
+        "timestamp_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "audits_run": audits_run,
+        "provider": provider_name,
+        "model": model,
+        "prompt_framework_version": "0.1.0",
+        "answers_hash": _hash_answers(answers),
+        "output_path": output_path,
+        "opportunities_extracted": opportunities_extracted,
+        "notes": "",
+    }
+
+    filepath = runs_dir / f"{run_id}.json"
+    filepath.write_text(json.dumps(record, indent=2) + "\n")
+    return str(filepath)
 
 
 def save_results(results: dict[str, str], output_dir: str = "./outputs") -> str:

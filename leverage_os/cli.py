@@ -8,10 +8,10 @@ from rich.markdown import Markdown
 from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
 
-from .output import save_results
+from .output import save_results, save_run_record, _generate_run_id
 from .prompts import ALL_AUDITS, AUDIT_MAP
 from .questions import collect_answers
-from .runner import invoke_model
+from .runner import invoke_model, DEFAULT_MODEL_ID, DEFAULT_PROVIDER
 
 console = Console()
 
@@ -121,10 +121,25 @@ def main():
     # Save results
     if results:
         filepath = save_results(results, output_dir=args.output_dir)
+
+        run_id = _generate_run_id()
+        provider_name = args.model.split(".")[0] if args.model else DEFAULT_PROVIDER
+        model_id = args.model or DEFAULT_MODEL_ID
+        run_record_path = save_run_record(
+            run_id=run_id,
+            audits_run=audits_to_run,
+            provider_name=provider_name,
+            model=model_id,
+            answers=answers,
+            output_path=filepath,
+            output_dir=args.output_dir,
+        )
+
         console.print()
         console.print(
             Panel(
-                f"[bold green]✅ Results saved to:[/bold green] {filepath}",
+                f"[bold green]Results saved to:[/bold green] {filepath}\n"
+                f"[bold green]Run record:[/bold green] {run_record_path}",
                 border_style="green",
             )
         )
