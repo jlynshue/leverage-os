@@ -1,5 +1,15 @@
 """Prompt templates for the four audit frameworks."""
 
+FORMAT_CONSTRAINTS = """
+# CRITICAL FORMAT RULES (follow exactly):
+- Use ONLY the bold-colon format shown below for section headers: **Header:**
+- DO NOT use markdown heading syntax (no #, ##, ###) in your response
+- DO NOT add extra sections, preambles, or commentary before the first header
+- DO NOT rename or rephrase the headers — use them VERBATIM as shown
+- Tables MUST use the exact column names shown, pipe-delimited
+- Start your response directly with the first **Header:** shown in OUTPUT FORMAT
+"""
+
 
 def build_knowledge_excavator(answers: dict) -> str:
     """Build the Specific Knowledge Excavator prompt with user answers filled in."""
@@ -25,14 +35,19 @@ Excavate my specific knowledge profile and identify the knowledge stack I can bu
 - Obsessions (things I read about unpaid): {answers.get('obsessions', '[NOT PROVIDED]')}
 - My weird career path: {answers.get('career_path', '[NOT PROVIDED]')}
 - Skills others compliment that I don't think are special: {answers.get('undervalued_skills', '[NOT PROVIDED]')}
+{FORMAT_CONSTRAINTS}
+# OUTPUT FORMAT (reproduce these headers and table structure EXACTLY):
 
-# OUTPUT FORMAT:
 **Your Specific Knowledge Niche:** [One precise sentence]
 
 **Why This is Rare:** [2 to 3 sentences]
 
 **3 Leveraged Business Models:**
 | Model | Leverage Type | Market | Competition | Multiplier | Score |
+|---|---|---|---|---|---|
+| [model 1] | [code/media/capital] | [1-5] | [1-5] | [1-5] | [total] |
+| [model 2] | [code/media/capital] | [1-5] | [1-5] | [1-5] | [total] |
+| [model 3] | [code/media/capital] | [1-5] | [1-5] | [1-5] | [total] |
 
 **Recommended Starting Point:** [Top model + first 3 actions to launch in 14 days]"""
 
@@ -61,19 +76,24 @@ Audit my income streams and activities. Show me where I have leverage and where 
 - Income sources with hours per week and revenue %: {answers.get('income_sources', '[NOT PROVIDED]')}
 - Monthly income target: {answers.get('monthly_income_target', '[NOT PROVIDED]')}
 - Main skills or assets I own: {answers.get('skills_assets', '[NOT PROVIDED]')}
+{FORMAT_CONSTRAINTS}
+# OUTPUT FORMAT (reproduce these headers and table structure EXACTLY):
 
-# OUTPUT FORMAT:
 **Leverage Audit:**
 | Activity | Leverage Type | Hours/Week | Score | Revenue % |
+|---|---|---|---|---|
+| [activity] | [Labor/Capital/Code/Media] | [N] | [1-5] | [N%] |
 
-**Your Leverage Index:** [X/5]
+(one row per income source)
+
+**Your Leverage Index:** [X.X/5]
 
 **Biggest Leverage Leak:** [Activity + why it's a trap + opportunity hours lost weekly]
 
 **3 Upgrade Moves:**
 1. [Convert X to Y] Score: [before to after] Timeline: [X days]
-2.
-3.
+2. [Convert X to Y] Score: [before to after] Timeline: [X days]
+3. [Convert X to Y] Score: [before to after] Timeline: [X days]
 
 **30 Day First Move:** [Exact action this week with named deliverable]"""
 
@@ -104,13 +124,18 @@ Design a Productize Yourself blueprint. Convert my expertise into a system that 
 - Current platforms or audiences: {answers.get('platforms_audiences', '[NOT PROVIDED]')}
 - Time available to build: {answers.get('hours_available', '[NOT PROVIDED]')} hours/week
 - Obsessions: {answers.get('obsessions', '[NOT PROVIDED]')}
+{FORMAT_CONSTRAINTS}
+# OUTPUT FORMAT (reproduce these headers and table structure EXACTLY):
 
-# OUTPUT FORMAT:
 **Your Core Transformation:**
 I help [WHO] go from [BEFORE] to [AFTER] using [NAMED METHOD]
 
 **3 Product Formats:**
 | Format | Leverage | Feasibility | Margin | Score |
+|---|---|---|---|---|
+| [format 1] | [1-5] | [1-5] | [1-5] | [total] |
+| [format 2] | [1-5] | [1-5] | [1-5] | [total] |
+| [format 3] | [1-5] | [1-5] | [1-5] | [total] |
 
 **Winning Product Structure:**
 Name: [Product name with proprietary mechanism]
@@ -119,7 +144,11 @@ Delivery: [How it reaches buyers without you]
 Price point: [Recommended + rationale]
 
 **Launch Positioning:** [One sentence]
-**Week 1 Roadmap:** [3 tasks under 4 hours each]"""
+
+**Week 1 Roadmap:**
+1. [Task under 4 hours]
+2. [Task under 4 hours]
+3. [Task under 4 hours]"""
 
 
 def build_time_leak_detector(answers: dict) -> str:
@@ -147,17 +176,22 @@ Audit my work and income structure. Find every hour being rented instead of inve
 - Total hours worked per week: {answers.get('total_hours_weekly', '[NOT PROVIDED]')}
 - Current monthly income: {answers.get('current_monthly_income', '[NOT PROVIDED]')}
 - Income split (active vs passive): {answers.get('income_split', '[NOT PROVIDED]')}
+{FORMAT_CONSTRAINTS}
+# OUTPUT FORMAT (reproduce these headers and table structure EXACTLY):
 
-# OUTPUT FORMAT:
 **Time Audit:**
 | Activity | Type | Hours/Week | Equity Potential (1-5) | Conversion Difficulty |
+|---|---|---|---|---|
+| [activity] | [Time Rented/Equity Building] | [N] | [1-5] | [Low/Medium/High] |
+
+(one row per activity)
 
 **Your Time Rent Ratio:** [X% rented / Y% equity]
 
 **Top 3 Conversion Opportunities:**
 1. [Activity] to [Equity equivalent] Effort: [Low/Med/High] Leverage: [1 to 5]
-2.
-3.
+2. [Activity] to [Equity equivalent] Effort: [Low/Med/High] Leverage: [1 to 5]
+3. [Activity] to [Equity equivalent] Effort: [Low/Med/High] Leverage: [1 to 5]
 
 **The Equity Gap:** [Project income in 24 months if you convert the top opportunity. Use current income as baseline, assume 5% monthly compound growth, show the math]
 

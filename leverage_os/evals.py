@@ -86,7 +86,8 @@ def eval_leverage(text: str) -> list[tuple[str, bool]]:
     results.append(("Table has 5 columns", count_table_cols(text, "Leverage Audit:") == 5))
     results.append(("Table has ≥1 data row", count_table_rows(text, "Leverage Audit:") >= 1))
     results.append(("Has 'Your Leverage Index' header", find_header(text, "Your Leverage Index:")))
-    idx_match = re.search(r"\*\*Your Leverage Index:\*\*\s*(\d+\.?\d*)/5", text)
+    idx_section = text[text.find("**Your Leverage Index:**"):text.find("**Your Leverage Index:**") + 200] if "**Your Leverage Index:**" in text else ""
+    idx_match = re.search(r"(\d+\.?\d*)\s*/\s*5", idx_section)
     results.append(("Leverage Index is X/5 format", idx_match is not None))
     results.append(("Has 'Biggest Leverage Leak' header", find_header(text, "Biggest Leverage Leak:")))
     results.append(("Has '3 Upgrade Moves' header", find_header(text, "3 Upgrade Moves:")))
