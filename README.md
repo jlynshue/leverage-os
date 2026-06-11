@@ -1,5 +1,6 @@
 # Leverage OS
 
+[![CI](https://github.com/jlynshue/leverage-os/actions/workflows/ci.yml/badge.svg)](https://github.com/jlynshue/leverage-os/actions/workflows/ci.yml)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![AWS Bedrock](https://img.shields.io/badge/AWS-Bedrock-FF9900.svg)](https://aws.amazon.com/bedrock/)
