@@ -63,6 +63,10 @@ Generic ChatGPT coaching prompts ask "what are your goals?" and return vague enc
 
 ## Quick Start
 
+**Prerequisites:** An AWS account with Amazon Bedrock model access enabled for a Claude model (AWS Console → Bedrock → Model access). The default model is `us.anthropic.claude-sonnet-4-6` in `us-east-1`; override either via `BEDROCK_MODEL_ID` / `AWS_REGION` (see `.env.example`) or the `--model` / `--region` flags. No AWS account is needed for `--no-ai` (filled-prompt) runs or the `manual` provider.
+
+**Cost:** A full audit makes **4 Bedrock calls** — one per framework, each capped at 4096 output tokens. Bedrock charges per token; consult the [Bedrock pricing page](https://aws.amazon.com/bedrock/pricing/) for the exact cost of your chosen model.
+
 ```bash
 # Install
 pip install -e .
@@ -85,6 +89,12 @@ Results appear in your terminal and are automatically saved to `./outputs/` with
 ## Example Output
 
 Below is a sample Leverage Stack Auditor result for a solo SaaS founder who also does consulting. This is the markdown that gets saved to `./outputs/`.
+
+> **Your Leverage Index:** 2.05/5
+>
+> **Biggest Leverage Leak:** Enterprise consulting — 25 hours/week generating only 55% of revenue at a leverage score of 1. Every hour here is rented and non-compounding. You are trading your highest-value skill (data architecture) for the lowest-leverage format (live delivery).
+
+Expand the full sample below:
 
 <details>
 <summary><strong>Sample: Leverage Stack Auditor — Solo SaaS Founder</strong></summary>
@@ -154,7 +164,12 @@ ruff check .
 
 # Format code
 ruff format .
+
+# Run the structural eval harness locally (no API calls)
+python -m leverage_os.evals --provider manual
 ```
+
+On every push and pull request to `main`, CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs `ruff check .` and the structural eval harness (`python -m leverage_os.evals --provider manual`) on Python 3.11 and 3.12. The harness loads the 3 fixture personas in `tests/fixtures/` and exercises all 4 audit builders; structural conformance checks (header/table-shape assertions) run when an LLM provider is supplied — the `manual` provider used in CI skips the API-dependent checks.
 
 ## Environment
 
